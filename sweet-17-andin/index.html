@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Happy Sweet 17th Birthday, Andin! ✨</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600;700&family=Nunito:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,600&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <style>
+        :root {
+            --primary: #f472b6;
+            --primary-dark: #db2777;
+            --accent: #a855f7;
+            --accent-gold: #f59e0b;
+            --bg-gradient: linear-gradient(135deg, #fff1f2 0%, #fdf2f8 35%, #f5f3ff 70%, #ede9fe 100%);
+            --card-bg: rgba(255, 255, 255, 0.88);
+            --card-border: rgba(244, 114, 182, 0.25);
+            --text-dark: #374151;
+            --text-muted: #6b7280;
+            --shadow: 0 15px 35px rgba(219, 39, 119, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            width: 100%;
+            min-height: 100vh;
+            min-height: 100dvh;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--bg-gradient);
+            background-size: 300% 300%;
+            animation: gradientMove 12s ease infinite;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 16px;
+        }
+
+        @keyframes gradientMove {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Floating background items */
+        .ambient-sparkle {
+            position: fixed;
+            pointer-events: none;
+            opacity: 0.55;
+            animation: floatSparkle 6s ease-in-out infinite alternate;
+            z-index: 1;
+        }
+        @keyframes floatSparkle {
+            0% { transform: translateY(0) rotate(0deg) scale(0.9); }
+            100% { transform: translateY(-40px) rotate(20deg) scale(1.1); }
+        }
+
+        /* Audio Control Pill */
+        .music-btn {
+            position: fixed;
+            top: 16px;
+            right: 16px;
+            z-index: 999;
+            background: white;
+            border: 2px solid var(--primary);
+            color: var(--primary-dark);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+        .music-btn.playing .disc-icon {
+            animation: spin 3s linear infinite;
+        }
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Main Container & Screens */
+        .main-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 2px solid var(--card-border);
+            box-shadow: var(--shadow);
+            border-radius: 28px;
+            width: 100%;
+            max-width: 440px;
+            padding: 30px 22px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .screen {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeIn 0.45s ease-out forwards;
+        }
+        .screen.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(14px) scale(0.97); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Badge Tag */
+        .tag-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 14px;
+            border-radius: 30px;
+            font-size: 0.78rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 14px;
+            background: rgba(244, 114, 182, 0.15);
+            color: var(--primary-dark);
+            border: 1px solid rgba(244, 114, 182, 0.3);
+        }
+
+        h1.title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.7rem;
+            line-height: 1.25;
+            color: #831843;
+            margin-bottom: 10px;
+        }
+
+        p.desc {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: var(--text-muted);
+            margin-bottom: 24px;
+        }
+
+        /* Common Buttons */
+        .btn {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(219, 39, 119, 0.3);
+            transition: transform 0.15s, box-shadow 0.15s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+        .btn:active {
+            transform: scale(0.96);
+            box-shadow: 0 4px 10px rgba(219, 39, 119, 0.2);
+        }
+
+        /* ============================================================
+           STAGE 1: INTEROGASI & TOMBOL KABUR
+           ============================================================ */
+        .stage1-buttons {
+            display: flex;
+            gap: 12px;
+            width: 100%;
+            position: relative;
+            min-height: 55px;
+            justify-content: center;
+        }
+        .btn-yes {
+            flex: 1;
+            background: linear-gradient(135deg, #ec4899, #db2777);
+            color: white;
+            font-weight: 800;
+            padding: 14px 18px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(219, 39, 119, 0.3);
+            transition: all 0.2s;
+        }
+        .btn-no {
+            flex: 1;
+            background: #f1f5f9;
+            color: #64748b;
+            font-weight: 700;
+            padding: 14px 18px;
+            border-radius: 50px;
+            border: 1px solid #cbd5e1;
+            cursor: pointer;
+            transition: left 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), top 0.28s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.12s ease-out;
+            user-select: none;
+            white-space: nowrap;
+        }
+        .btn-no:active {
+            transform: scale(0.93);
+        }
+
+        .avatar-box {
+            width: 95px;
+            height: 95px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #fbcfe8, #f472b6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.8rem;
+            margin-bottom: 16px;
+            border: 4px solid white;
+            box-shadow: 0 8px 25px rgba(244, 114, 182, 0.35);
+            animation: pulseAvatar 2.5s infinite;
+            overflow: hidden;
+            position: relative;
+        }
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+            display: block;
+        }
+        @keyframes pulseAvatar {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.06); }
+        }
+
+        /* Success dialog after answering Yes */
+        .verify-badge {
+            background: #ecfdf5;
+            color: #059669;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-bottom: 14px;
+            display: inline-block;
+            border: 1px solid #a7f3d0;
+        }
+
+        /* ============================================================
+           STAGE 2: PETI KADO 17 HIT
+           ============================================================ */
+        .chest-stage {
+            position: relative;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .chest-container {
+            width: 140px;
+            height: 140px;
+            position: relative;
+            margin: 10px 0 20px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .chest-icon {
+            font-size: 5.5rem;
+            display: inline-block;
+            transition: transform 0.1s ease;
+            filter: drop-shadow(0 10px 15px rgba(219, 39, 119, 0.25));
+        }
+
+        .chest-shake {
+            animation: shake 0.3s cubic-bezier(.36,.07,.19,.97) both;
+        }
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-3px, 0, 0) rotate(-4deg); }
+            20%, 80% { transform: translate3d(4px, 0, 0) rotate(5deg); }
+            30%, 50%, 70% { transform: translate3d(-6px, 0, 0) rotate(-6deg); }
+            40%, 60% { transform: translate3d(6px, 0, 0) rotate(6deg); }
+        }
+
+        .progress-bar-bg {
+            width: 100%;
+            height: 14px;
+            background: #f1f5f9;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 8px;
+            position: relative;
+        }
+        .progress-bar-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #f472b6, #ec4899, #a855f7);
+            border-radius: 20px;
+            transition: width 0.15s ease-out;
+        }
+
+        .hit-counter-text {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            margin-bottom: 16px;
+        }
+
+        .btn-hit {
+            width: 100%;
+            padding: 16px 20px;
+            font-size: 1.05rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #f43f5e, #e11d48);
+            border-radius: 50px;
+            border: none;
+            color: white;
+            box-shadow: 0 8px 25px rgba(225, 29, 72, 0.35);
+            cursor: pointer;
+            transition: transform 0.1s, box-shadow 0.1s;
+        }
+        .btn-hit:active {
+            transform: scale(0.95);
+        }
+
+        .floating-hit-tag {
+            position: absolute;
+            font-weight: 900;
+            font-size: 1.3rem;
+            color: #db2777;
+            pointer-events: none;
+            animation: floatUpFade 0.8s ease-out forwards;
+            text-shadow: 0 0 10px white;
+            z-index: 20;
+        }
+        @keyframes floatUpFade {
+            0% { opacity: 1; transform: translateY(0) scale(0.8); }
+            100% { opacity: 0; transform: translateY(-50px) scale(1.3); }
+        }
+
+        /* ============================================================
+           STAGE 3: 17 KAPSUL HARAPAN & KENANGAN
+           ============================================================ */
+        .wishes-card {
+            width: 100%;
+            background: #ffffff;
+            border: 2px solid rgba(244, 114, 182, 0.3);
+            border-radius: 20px;
+            padding: 24px 18px;
+            min-height: 190px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.04);
+            margin-bottom: 18px;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .wish-number-pill {
+            position: absolute;
+            top: -14px;
+            background: linear-gradient(135deg, var(--accent), var(--primary-dark));
+            color: white;
+            font-weight: 800;
+            font-size: 0.8rem;
+            padding: 4px 16px;
+            border-radius: 20px;
+            box-shadow: 0 4px 12px rgba(168, 85, 247, 0.3);
+        }
+
+        .wish-icon-display {
+            font-size: 2.2rem;
+            margin-bottom: 10px;
+        }
+
+        .wish-text-content {
+            font-size: 1.05rem;
+            line-height: 1.5;
+            font-weight: 700;
+            color: #1f2937;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .wishes-nav {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+        }
+        .btn-prev-wish {
+            flex: 1;
+            background: #f1f5f9;
+            color: #475569;
+            padding: 12px;
+            border-radius: 50px;
+            border: 1px solid #cbd5e1;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .btn-next-wish {
+            flex: 2;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 12px;
+            border-radius: 50px;
+            border: none;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 6px 16px rgba(219, 39, 119, 0.25);
+        }
+
+        /* ============================================================
+           STAGE 4: GRAND FINALE (KUE, TIUP LILIN & SURAT)
+           ============================================================ */
+        .cake-container {
+            position: relative;
+            width: 120px;
+            height: 100px;
+            margin: 10px auto 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .candle-stick {
+            position: relative;
+            width: 12px;
+            height: 38px;
+            background: repeating-linear-gradient(45deg, #f43f5e, #f43f5e 6px, #ffffff 6px, #ffffff 12px);
+            border-radius: 4px;
+            margin-bottom: 2px;
+        }
+
+        .candle-flame {
+            position: absolute;
+            top: -18px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 14px;
+            height: 22px;
+            background: #fbbf24;
+            border-radius: 50% 50% 35% 35%;
+            box-shadow: 0 0 14px #f59e0b, 0 0 25px #fbbf24;
+            animation: flicker 0.6s infinite alternate;
+            transition: all 0.3s ease;
+        }
+        .candle-flame.blown-out {
+            opacity: 0;
+            transform: translateX(-50%) scale(0.2);
+        }
+
+        @keyframes flicker {
+            0% { transform: translateX(-50%) rotate(-2deg) scale(1); }
+            100% { transform: translateX(-50%) rotate(3deg) scale(1.1); }
+        }
+
+        .smoke-puff {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 8px;
+            background: rgba(156, 163, 175, 0.6);
+            border-radius: 50%;
+            opacity: 0;
+            pointer-events: none;
+        }
+        .smoke-puff.rise {
+            animation: smokeRise 1.4s ease-out forwards;
+        }
+        @keyframes smokeRise {
+            0% { opacity: 0.8; transform: translate(-50%, 0) scale(1); }
+            100% { opacity: 0; transform: translate(-70%, -40px) scale(3.5); }
+        }
+
+        .cake-body {
+            font-size: 3.5rem;
+            line-height: 1;
+            filter: drop-shadow(0 8px 12px rgba(0,0,0,0.12));
+        }
+
+        /* Heartfelt Letter Box */
+        .letter-scroll {
+            background: #fffdfa;
+            border: 2px dashed #f472b6;
+            border-radius: 20px;
+            padding: 20px 16px;
+            text-align: left;
+            margin-top: 14px;
+            width: 100%;
+            max-height: 400px;
+            overflow-y: auto;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.03);
+        }
+
+        /* Polaroid Photo Frame (Opsi 1) */
+        .polaroid-card {
+            background: #ffffff;
+            padding: 10px 10px 14px 10px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(219, 39, 119, 0.18), 0 2px 6px rgba(0,0,0,0.06);
+            border: 1px solid rgba(244, 114, 182, 0.3);
+            margin: 6px auto 18px auto;
+            max-width: 230px;
+            position: relative;
+            transform: rotate(-1.5deg);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
+        }
+        .polaroid-card:hover {
+            transform: rotate(0deg) scale(1.03);
+        }
+        .polaroid-tape {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 75px;
+            height: 22px;
+            background: rgba(244, 114, 182, 0.55);
+            border-radius: 3px;
+            backdrop-filter: blur(2px);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+            z-index: 2;
+        }
+        .polaroid-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 8px;
+            display: block;
+        }
+        .polaroid-caption {
+            font-family: 'Caveat', cursive;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #be185d;
+            margin-top: 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .letter-scroll::-webkit-scrollbar {
+            width: 5px;
+        }
+        .letter-scroll::-webkit-scrollbar-thumb {
+            background: #fbcfe8;
+            border-radius: 10px;
+        }
+
+        .letter-salutation {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.2rem;
+            color: #9d174d;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .letter-body {
+            font-size: 0.92rem;
+            line-height: 1.65;
+            color: #374151;
+            white-space: pre-line;
+        }
+
+        .letter-footer {
+            font-family: 'Caveat', cursive;
+            font-size: 1.35rem;
+            color: #be185d;
+            margin-top: 14px;
+            text-align: right;
+        }
+
+        .btn-restart {
+            margin-top: 18px;
+            background: transparent;
+            color: var(--text-muted);
+            border: 1px solid #cbd5e1;
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        /* Mobile Specific Optimizations */
+        @media (max-width: 480px) {
+            body {
+                padding: 12px;
+            }
+            .main-card {
+                padding: 22px 16px;
+                border-radius: 24px;
+            }
+            h1.title {
+                font-size: 1.45rem;
+            }
+            p.desc {
+                font-size: 0.9rem;
+                margin-bottom: 18px;
+            }
+            .btn {
+                padding: 12px 20px;
+                font-size: 0.95rem;
+            }
+            .btn-yes, .btn-no {
+                padding: 12px 12px;
+                font-size: 0.86rem;
+            }
+            .music-btn {
+                top: 10px;
+                right: 10px;
+                padding: 6px 12px;
+                font-size: 0.76rem;
+            }
+            .letter-scroll {
+                max-height: 320px;
+                padding: 16px 12px;
+                -webkit-overflow-scrolling: touch;
+            }
+            .letter-body {
+                font-size: 0.88rem;
+                line-height: 1.6;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Sparkles -->
+    <div class="ambient-sparkle" style="top: 10%; left: 8%; font-size: 1.8rem;">✨</div>
+    <div class="ambient-sparkle" style="top: 25%; right: 10%; font-size: 1.4rem; animation-delay: 1.2s;">🌸</div>
+    <div class="ambient-sparkle" style="bottom: 18%; left: 12%; font-size: 1.6rem; animation-delay: 2.5s;">💖</div>
+    <div class="ambient-sparkle" style="bottom: 12%; right: 8%; font-size: 2rem; animation-delay: 3s;">🎉</div>
+
+    <!-- Music Toggle Button -->
+    <button class="music-btn" id="musicToggleBtn" onclick="toggleAudio()">
+        <span class="disc-icon">🎵</span>
+        <span id="musicBtnLabel">Putar Musik</span>
+    </button>
+
+    <!-- Hidden Audio Player -->
+    <!-- Lagu ceria dan manis berlisensi bebas untuk ulang tahun -->
+    <audio id="bgMusic" loop preload="auto">
+        <source src="music.mp3" type="audio/mp3">
+        <source src="https://raw.githubusercontent.com/BaseMax/happy-birth-letter/main/happy-birthday.mp3" type="audio/mp3">
+    </audio>
+
+    <div class="main-card" id="cardContainer">
+
+        <!-- ========================================================
+             STAGE 1: INTEROGASI & TOMBOL KABUR
+             ======================================================== -->
+        <div class="screen active" id="stage1">
+            <div class="avatar-box">
+                <img src="foto.jpg" alt="Foto Andin" class="avatar-img" onerror="this.src='97c18813-a50c-4c6a-b7eb-ef8064928b98.jpg'">
+            </div>
+            <div class="tag-badge">🛡️ Sweet 17 Protocol</div>
+            <h1 class="title">Verifikasi Identitas</h1>
+            <p class="desc">
+                Sistem mendeteksi perayaan besar hari ini. Apakah benar kamu adalah <b>Andin (si Kebooo)</b> yang resmi berusia <b>17 Tahun</b>?
+            </p>
+
+            <div class="stage1-buttons" id="stage1BtnGroup">
+                <button class="btn-yes" id="btnYes" onclick="onVerifySuccess()">Iya, Ini Aku! 🎂</button>
+                <button class="btn-no" id="btnRunaway" onclick="triggerDodge(event)">Bukan, Salah 😜</button>
+            </div>
+            
+            <p id="dodgeTease" style="font-size: 0.85rem; color: #db2777; margin-top: 14px; font-weight: 700; min-height: 20px;"></p>
+        </div>
+
+        <!-- STAGE 1.5: DIALOG TRANSISI KE PETI -->
+        <div class="screen" id="stage1_5">
+            <div class="avatar-box" style="background: linear-gradient(135deg, #a7f3d0, #34d399);">✅</div>
+            <div class="verify-badge">Status: Terverifikasi Penuh</div>
+            <h1 class="title">Halo, Kebooo! ✨</h1>
+            <p class="desc">
+                Identitas kamu cocok! Dzakwan sudah menyiapkan sesuatu khusus buat kamu yang lagi ulang tahun.<br><br>
+                Tapi sebelum itu... hadiahnya terkunci rapat di dalam peti. Siap buka?
+            </p>
+            <button class="btn" onclick="goToStage2()">Buka Peti Kado! 🔓</button>
+        </div>
+
+        <!-- ========================================================
+             STAGE 2: PETI KADO 10 HIT (MENCET 10 KALI)
+             ======================================================== -->
+        <div class="screen" id="stage2">
+            <div class="tag-badge">⚡ Tantangan 10 Ketukan</div>
+            <h1 class="title">Pecahkan Segel Peti!</h1>
+            <p class="desc" id="chestDesc">
+                Ketuk peti ini sebanyak <b>10 kali</b> untuk menghancurkan gemboknya!
+            </p>
+
+            <div class="chest-stage">
+                <div class="chest-container" id="chestBox" onclick="hitChest(event)">
+                    <span class="chest-icon" id="chestEmoji">🎁</span>
+                </div>
+
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="progressFill"></div>
+                </div>
+
+                <div class="hit-counter-text" id="counterText">0 / 10 KETUKAN</div>
+
+                <button class="btn-hit" id="btnHit" onclick="hitChest(event)">
+                    🔨 KETUK PETI SEKARANG!
+                </button>
+            </div>
+        </div>
+
+        <!-- ========================================================
+             STAGE 3: 10 KAPSUL HARAPAN & KENANGAN
+             ======================================================== -->
+        <div class="screen" id="stage3">
+            <div class="tag-badge">🌟 10 Kapsul Harapan</div>
+            <h1 class="title">Pesan untuk Usia 17</h1>
+            <p class="desc">
+                Dari dalam peti, keluar 10 doa dan pesan terbaik buat kamu:
+            </p>
+
+            <div class="wishes-card">
+                <div class="wish-number-pill" id="wishNumberPill">Kapsul #1 dari 10</div>
+                <div class="wish-icon-display" id="wishIcon">🌸</div>
+                <div class="wish-text-content" id="wishText">
+                    "Selamat resmi memasuki usia 17 tahun! Semoga langkah barumu selalu dipenuhi kebahagiaan dan keceriaan."
+                </div>
+            </div>
+
+            <div class="wishes-nav">
+                <button class="btn-prev-wish" id="btnPrevWish" onclick="prevWish()">⬅ Balik</button>
+                <button class="btn-next-wish" id="btnNextWish" onclick="nextWish()">Lanjut (1/10) ➡</button>
+            </div>
+        </div>
+
+        <!-- ========================================================
+             STAGE 4: GRAND FINALE (KUE, TIUP LILIN & SURAT)
+             ======================================================== -->
+        <div class="screen" id="stage4">
+            <div class="tag-badge">🎂 Chapter 17 Unlocked</div>
+            <h1 class="title">Happy Sweet 17th!</h1>
+            
+            <!-- Virtual Cake -->
+            <div class="cake-container">
+                <div class="candle-stick">
+                    <div class="candle-flame" id="flame"></div>
+                    <div class="smoke-puff" id="smoke"></div>
+                </div>
+                <div class="cake-body">🎂</div>
+            </div>
+
+            <button class="btn" id="btnBlow" onclick="blowCandle()" style="margin-bottom: 12px; background: linear-gradient(135deg, #f59e0b, #d97706);">
+                🕯️ Make a Wish & Tiup Lilin!
+            </button>
+
+            <!-- Heartfelt Letter -->
+            <div class="letter-scroll" id="letterBox" style="display: none;">
+                <div class="letter-salutation">Hai Keboooo! 🌟</div>
+                <div class="letter-body">happy sweet seventeen keboooo, gek buat KTP ben jadi orang dewasaa wkwkww, bocill nokk sek ann. 
+
+semangatt latihann LKS nyaa ya kebooo, web ini khusus buatt orang cantikk, baik, lucuu. bahagiaa teruss yaa kebooo.</div>
+                <div class="letter-footer">
+                    — Dari Dzakwan 🤍
+                </div>
+            </div>
+
+            <button class="btn-restart" onclick="restartJourney()">🔄 Mulai Ulang Petualangan</button>
+        </div>
+
+    </div>
+
+    <!-- Script Logika Interaktif -->
+    <script>
+        /* ============================================================
+           SYNTHESIZER SOUND GENERATOR (Web Audio API)
+           Berfungsi 100% tanpa internet / file lokal
+           ============================================================ */
+        let audioCtx = null;
+        function getAudioContext() {
+            if (!audioCtx) {
+                audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            return audioCtx;
+        }
+
+        // Suara Pop saat tombol ditekan
+        function playPopSound(freq = 600, type = 'sine') {
+            try {
+                const ctx = getAudioContext();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, ctx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(150, ctx.currentTime + 0.12);
+                gain.gain.setValueAtTime(0.3, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.12);
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                osc.start();
+                osc.stop(ctx.currentTime + 0.12);
+            } catch (e) {}
+        }
+
+        // Safe Confetti wrapper for mobile
+        function safeConfetti(opts) {
+            if (typeof confetti === 'function') {
+                try { confetti(opts); } catch (e) {}
+            }
+        }
+
+        // Suara Menang / Fanfare
+        function playWinSound() {
+            try {
+                const notes = [261.63, 329.63, 392.00, 523.25];
+                notes.forEach((freq, idx) => {
+                    setTimeout(() => playPopSound(freq, 'triangle'), idx * 120);
+                });
+            } catch (e) {}
+        }
+
+        /* ============================================================
+           AUDIO BACKGROUND MUSIC TOGGLE
+           ============================================================ */
+        const bgMusic = document.getElementById('bgMusic');
+        const musicToggleBtn = document.getElementById('musicToggleBtn');
+        const musicBtnLabel = document.getElementById('musicBtnLabel');
+        let isMusicPlaying = false;
+
+        function toggleAudio() {
+            getAudioContext();
+            if (isMusicPlaying) {
+                bgMusic.pause();
+                musicToggleBtn.classList.remove('playing');
+                musicBtnLabel.innerText = "Putar Musik";
+                isMusicPlaying = false;
+            } else {
+                bgMusic.volume = 0.5;
+                bgMusic.play().then(() => {
+                    musicToggleBtn.classList.add('playing');
+                    musicBtnLabel.innerText = "Musik Nyala ✨";
+                    isMusicPlaying = true;
+                }).catch(() => {
+                    musicBtnLabel.innerText = "Klik Play";
+                });
+            }
+        }
+
+        /* ============================================================
+           STAGE NAVIGATION
+           ============================================================ */
+        function switchScreen(fromId, toId) {
+            const current = document.getElementById(fromId);
+            const target = document.getElementById(toId);
+            current.classList.remove('active');
+            setTimeout(() => {
+                target.classList.add('active');
+            }, 50);
+        }
+
+        /* ============================================================
+           STAGE 1: TOMBOL KABUR (Pasti Kabur Tepat 5 Kali)
+           ============================================================ */
+        let dodgeCount = 0;
+        const maxDodges = 5;
+        let isDodgeLocked = false;
+
+        const dodgePhrases = [
+            "Eits, gak kena! Mau kabur kemana kebooo? 😜 (Kabur 1 dari 5)",
+            "Tombolnya gamau diklik wkwk! (Kabur 2 dari 5) 😆",
+            "Jari kamu kurang cepet nih kebooo! (Kabur 3 dari 5) 🏃‍♀️💨",
+            "Dikit lagi nyerah kan? wkwk (Kabur 4 dari 5) 😂",
+            "UDAH 5 KALI KABUR! Tombol ini resmi menyerah! 🏳️ (5 dari 5)"
+        ];
+
+        function triggerDodge(e) {
+            if (e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            // Jika sudah 5 kali kabur dan tombol menyerah ditekan, lanjut ke tahap berikutnya
+            if (dodgeCount >= maxDodges) {
+                onVerifySuccess();
+                return;
+            }
+
+            // Kunci Cooldown 380ms agar 1 gerakan/klik hanya terhitung TEPAT 1 kali kabur
+            if (isDodgeLocked) return;
+            isDodgeLocked = true;
+            setTimeout(() => { isDodgeLocked = false; }, 380);
+
+            dodgeCount++;
+            playPopSound(340 + dodgeCount * 60, 'sawtooth');
+
+            const btn = document.getElementById('btnRunaway');
+            const btnYes = document.getElementById('btnYes');
+            const tease = document.getElementById('dodgeTease');
+
+            // Proteksi sementara agar tombol 'Iya' tidak bisa terpencet saat tombol 'Bukan' baru saja kabur
+            btnYes.style.pointerEvents = 'none';
+            setTimeout(() => { btnYes.style.pointerEvents = 'auto'; }, 300);
+
+            // Batasi pergerakan tombol agar TETAP DEKAT di sekitar bingkai kartu (cardContainer)
+            const card = document.getElementById('cardContainer');
+            const cardRect = card.getBoundingClientRect();
+            const yesRect = btnYes.getBoundingClientRect();
+
+            const btnWidth = btn.offsetWidth || 130;
+            const btnHeight = btn.offsetHeight || 48;
+
+            // Area lompatan dibatasi tepat di sekitar bingkai
+            const marginX = 15;
+            const marginY = 20;
+            let minX = Math.max(8, Math.floor(cardRect.left - marginX));
+            let maxX = Math.min(window.innerWidth - btnWidth - 8, Math.floor(cardRect.right + marginX - btnWidth));
+            let minY = Math.max(8, Math.floor(cardRect.top - marginY));
+            let maxY = Math.min(window.innerHeight - btnHeight - 8, Math.floor(cardRect.bottom + marginY - btnHeight));
+
+            if (maxX <= minX) {
+                minX = 8;
+                maxX = Math.max(16, window.innerWidth - btnWidth - 8);
+            }
+            if (maxY <= minY) {
+                minY = 8;
+                maxY = Math.max(16, window.innerHeight - btnHeight - 8);
+            }
+
+            // Pastikan posisi baru melompat tapi TIDAK BOLEH MENUMPUK DI ATAS TOMBOL 'IYA'
+            const currentRect = btn.getBoundingClientRect();
+            let newX = minX;
+            let newY = minY;
+            let attempts = 0;
+            const buffer = 24; // Jarak aman minimal 24px dari tombol 'Iya'
+
+            do {
+                newX = Math.floor(minX + Math.random() * (maxX - minX));
+                newY = Math.floor(minY + Math.random() * (maxY - minY));
+                const dist = Math.hypot(newX - currentRect.left, newY - currentRect.top);
+
+                // Cek tabrakan/tumpukan dengan tombol Iya (termasuk buffer)
+                const overlapsYes = !(
+                    newX + btnWidth < yesRect.left - buffer ||
+                    newX > yesRect.right + buffer ||
+                    newY + btnHeight < yesRect.top - buffer ||
+                    newY > yesRect.bottom + buffer
+                );
+
+                if (!overlapsYes && dist >= 60) {
+                    break;
+                }
+                attempts++;
+            } while (attempts < 35);
+
+            // Fallback darurat jika acakan mendekati tombol Iya:
+            // Geser ke bawah tombol Iya secara aman dan presisi
+            const stillOverlaps = !(
+                newX + btnWidth < yesRect.left - 15 ||
+                newX > yesRect.right + 15 ||
+                newY + btnHeight < yesRect.top - 15 ||
+                newY > yesRect.bottom + 15
+            );
+            if (stillOverlaps) {
+                newY = Math.min(maxY, Math.floor(yesRect.bottom + 25));
+                newX = Math.min(maxX, Math.max(minX, Math.floor(cardRect.left + (cardRect.width - btnWidth) / 2)));
+            }
+
+            btn.style.position = 'fixed';
+            btn.style.left = newX + 'px';
+            btn.style.top = newY + 'px';
+            btn.style.zIndex = '9999';
+
+            tease.innerText = dodgePhrases[dodgeCount - 1];
+
+            if (dodgeCount < maxDodges) {
+                // Tampilkan angka hitungan langsung di tombol agar terlihat jelas
+                btn.innerText = `Bukan, Salah 😜 (${dodgeCount}/${maxDodges})`;
+            } else {
+                // TEPAT DI KABUR KE-5: Tombol berhenti dan menyerah
+                btn.innerText = "Ampun, Capek Kabur! 🏳️";
+                btn.style.background = "#e2e8f0";
+                btn.style.color = "#334155";
+                btn.style.border = "2px dashed #94a3b8";
+                tease.innerHTML = "Tombol 'Bukan' udah capek kabur 5 kali wkwk!<br>Sekarang pencet tombol <b>'Iya, Ini Aku! 🎂'</b> ya kebooo! 😜";
+            }
+        }
+
+        function onVerifySuccess() {
+            playPopSound(800, 'sine');
+            safeConfetti({ particleCount: 50, spread: 60, origin: { y: 0.6 } });
+            
+            // Auto-start music softly if not yet playing
+            if (!isMusicPlaying) {
+                toggleAudio();
+            }
+
+            switchScreen('stage1', 'stage1_5');
+        }
+
+        function goToStage2() {
+            playPopSound(500);
+            switchScreen('stage1_5', 'stage2');
+        }
+
+        /* ============================================================
+           STAGE 2: PETI 10 HIT
+           ============================================================ */
+        let hitCount = 0;
+        const totalHits = 10;
+        const chestEmoji = document.getElementById('chestEmoji');
+        const progressFill = document.getElementById('progressFill');
+        const counterText = document.getElementById('counterText');
+        const chestDesc = document.getElementById('chestDesc');
+        const chestBox = document.getElementById('chestBox');
+        const btnHit = document.getElementById('btnHit');
+
+        const hitFeedbacks = [
+            "Pemanasan dulu! Lagi...",
+            "Sentuhan pertama berhasil!",
+            "Gembok mulai berguncang!",
+            "Kekuatan mulai bangkit!",
+            "Setengah jalan menuju kebuka!",
+            "Peti mulai retak dan bersinar!",
+            "Cahaya emasnya makin terang!",
+            "Dua kali lagi!!",
+            "SATU KALI LAGI YANG PALING MANTAP!!"
+        ];
+
+        function hitChest(e) {
+            if (hitCount >= totalHits) return;
+
+            hitCount++;
+            playPopSound(400 + hitCount * 45, 'triangle');
+
+            // Animasi guncang
+            chestBox.classList.remove('chest-shake');
+            void chestBox.offsetWidth; // force reflow
+            chestBox.classList.add('chest-shake');
+
+            // Teks hit mengambang
+            createFloatingText(e, `+1 Tap! ✨`);
+
+            // Update bar
+            const percent = (hitCount / totalHits) * 100;
+            progressFill.style.width = percent + '%';
+            counterText.innerText = `${hitCount} / ${totalHits} KETUKAN`;
+
+            // Dynamic emoji state
+            if (hitCount >= 3 && hitCount < 7) {
+                chestEmoji.innerText = "📦";
+            } else if (hitCount >= 7 && hitCount < 10) {
+                chestEmoji.innerText = "✨📦✨";
+            }
+
+            // Ganti deskripsi motivasi
+            if (hitCount < totalHits) {
+                const feedbackIdx = Math.min(hitCount - 1, hitFeedbacks.length - 1);
+                chestDesc.innerText = hitFeedbacks[feedbackIdx];
+                btnHit.innerText = `🔨 KETUK LAGI! (${hitCount}/${totalHits})`;
+            } else {
+                // TERCAPAI 10 HIT!
+                onChestOpen();
+            }
+        }
+
+        function createFloatingText(e, text) {
+            const tag = document.createElement('div');
+            tag.className = 'floating-hit-tag';
+            tag.innerText = text;
+
+            const rect = chestBox.getBoundingClientRect();
+            tag.style.left = (rect.left + rect.width / 2 + (Math.random() * 40 - 20)) + 'px';
+            tag.style.top = (rect.top + (Math.random() * 20)) + 'px';
+
+            document.body.appendChild(tag);
+            setTimeout(() => tag.remove(), 800);
+        }
+
+        function onChestOpen() {
+            playWinSound();
+            chestEmoji.innerText = "🎉";
+            chestDesc.innerHTML = "<b style='color:#db2777;'>BOOOM! PETI BERHASIL TERBUKA! 🌟</b>";
+            btnHit.innerText = "✨ BUKA ISI PETI RAHASIA ✨";
+            btnHit.style.background = "linear-gradient(135deg, #10b981, #059669)";
+
+            // Super confetti blast
+            safeConfetti({
+                particleCount: 120,
+                spread: 100,
+                origin: { y: 0.5 }
+            });
+
+            btnHit.onclick = () => {
+                switchScreen('stage2', 'stage3');
+                renderWish();
+            };
+        }
+
+        /* ============================================================
+           STAGE 3: 10 KAPSUL HARAPAN & KENANGAN
+           ============================================================ */
+        const wishes = [
+            { icon: "🎂", text: "Selamat resmi berusia 17 tahun, Andin! Semoga langkah barumu selalu dipenuhi kebahagiaan dan keceriaan." },
+            { icon: "✨", text: "Semoga di usia yang makin dewasa ini, setiap impian dan cita-citamu dilancarkan satu per satu." },
+            { icon: "🌟", text: "Semoga di usia yang baru ini, setiap langkah dan keputusan yang kamu ambil selalu membawa kebaikan serta kebahagiaan." },
+            { icon: "🌸", text: "Tetap jadi orang yang baik hati, ceria, dan selalu bawa vibes positif ke orang-orang di sekitarmu!" },
+            { icon: "🍬", text: "Semoga selalu dijauhkan dari overthinking dan rasa capek, serta hari-harimu selalu ditemani hal-hal manis!" },
+            { icon: "💖", text: "Semoga selalu dikelilingi oleh sahabat dan keluarga yang tulus serta sayang sama kamu." },
+            { icon: "💪", text: "Kalau nanti ketemu hari-hari yang melelahkan pas latihan, ingat ya kalau kamu jauh lebih kuat dan hebat dari yang kamu bayangkan." },
+            { icon: "📸", text: "Terima kasih sudah jadi teman yang menyenangkan dan selalu asyik diajak cerita maupun ketawa bareng." },
+            { icon: "🌻", text: "Bahagiaa teruss yaa kebooo! Semoga tahun ke-17 ini jadi salah satu bab terindah dalam hidupmu." },
+            { icon: "💌", text: "Dan yang terakhir... ada satu surat rahasia serta kue ulang tahun yang sudah menunggumu di babak penutup!" }
+        ];
+
+        let currentWishIndex = 0;
+        const wishNumberPill = document.getElementById('wishNumberPill');
+        const wishIcon = document.getElementById('wishIcon');
+        const wishText = document.getElementById('wishText');
+        const btnPrevWish = document.getElementById('btnPrevWish');
+        const btnNextWish = document.getElementById('btnNextWish');
+
+        function renderWish() {
+            const item = wishes[currentWishIndex];
+            wishNumberPill.innerText = `Kapsul #${currentWishIndex + 1} dari ${wishes.length}`;
+            wishIcon.innerText = item.icon;
+            wishText.innerText = `"${item.text}"`;
+
+            btnPrevWish.style.visibility = currentWishIndex === 0 ? 'hidden' : 'visible';
+
+            if (currentWishIndex === wishes.length - 1) {
+                btnNextWish.innerText = "💌 Buka Surat & Kue Ultah 🎂";
+                btnNextWish.style.background = "linear-gradient(135deg, #f59e0b, #d97706)";
+            } else {
+                btnNextWish.innerText = `Lanjut (${currentWishIndex + 1}/${wishes.length}) ➡`;
+                btnNextWish.style.background = "linear-gradient(135deg, var(--primary), var(--primary-dark))";
+            }
+        }
+
+        function nextWish() {
+            playPopSound(550 + currentWishIndex * 20);
+            if (currentWishIndex < wishes.length - 1) {
+                currentWishIndex++;
+                renderWish();
+            } else {
+                // Pindah ke Stage 4 (Finale)
+                switchScreen('stage3', 'stage4');
+            }
+        }
+
+        function prevWish() {
+            playPopSound(450);
+            if (currentWishIndex > 0) {
+                currentWishIndex--;
+                renderWish();
+            }
+        }
+
+        /* ============================================================
+           STAGE 4: GRAND FINALE & TIUP LILIN
+           ============================================================ */
+        let candleBlown = false;
+
+        function blowCandle() {
+            if (candleBlown) return;
+            candleBlown = true;
+            playPopSound(250, 'sine');
+
+            const flame = document.getElementById('flame');
+            const smoke = document.getElementById('smoke');
+            const btnBlow = document.getElementById('btnBlow');
+            const letterBox = document.getElementById('letterBox');
+
+            // Animasi padam & asap
+            flame.classList.add('blown-out');
+            smoke.classList.add('rise');
+
+            btnBlow.innerText = "✨ Keinginanmu Terkabul! ✨";
+            btnBlow.style.background = "#10b981";
+
+            // Ledakan kembang api confetti
+            safeConfetti({
+                particleCount: 150,
+                spread: 120,
+                origin: { y: 0.6 }
+            });
+
+            setTimeout(() => {
+                safeConfetti({
+                    particleCount: 100,
+                    angle: 60,
+                    spread: 80,
+                    origin: { x: 0 }
+                });
+                safeConfetti({
+                    particleCount: 100,
+                    angle: 120,
+                    spread: 80,
+                    origin: { x: 1 }
+                });
+            }, 300);
+
+            // Buka surat
+            setTimeout(() => {
+                letterBox.style.display = 'block';
+                letterBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 600);
+        }
+
+        function restartJourney() {
+            hitCount = 0;
+            currentWishIndex = 0;
+            candleBlown = false;
+            dodgeCount = 0;
+            isDodgeLocked = false;
+            document.getElementById('progressFill').style.width = '0%';
+            document.getElementById('counterText').innerText = `0 / ${totalHits} KETUKAN`;
+            document.getElementById('chestEmoji').innerText = "🎁";
+            document.getElementById('btnHit').innerText = "🔨 KETUK PETI SEKARANG!";
+            document.getElementById('btnHit').style.background = "linear-gradient(135deg, #f43f5e, #e11d48)";
+            document.getElementById('btnHit').onclick = (e) => hitChest(e);
+            
+            const btnRunaway = document.getElementById('btnRunaway');
+            btnRunaway.style.position = 'static';
+            btnRunaway.style.zIndex = '1';
+            btnRunaway.innerText = "Bukan, Salah 😜";
+            btnRunaway.style.background = "#f1f5f9";
+            btnRunaway.style.color = "#64748b";
+            btnRunaway.style.border = "1px solid #cbd5e1";
+            document.getElementById('dodgeTease').innerText = "";
+
+            const flame = document.getElementById('flame');
+            const smoke = document.getElementById('smoke');
+            flame.classList.remove('blown-out');
+            smoke.classList.remove('rise');
+            document.getElementById('btnBlow').innerText = "🕯️ Make a Wish & Tiup Lilin!";
+            document.getElementById('btnBlow').style.background = "linear-gradient(135deg, #f59e0b, #d97706)";
+            document.getElementById('letterBox').style.display = 'none';
+
+            switchScreen('stage4', 'stage1');
+        }
+    </script>
+</body>
+</html>
